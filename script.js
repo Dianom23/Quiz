@@ -1,36 +1,38 @@
-var q1 = document.querySelector("#q1")
-var q2 = document.querySelector("#q2")
-var q3 = document.querySelector("#q3")
-var q4 = document.querySelector("#q4")
-var q5 = document.querySelector("#q5")
-
+var answerOnQuestionType1 = document.querySelectorAll('.type1')
 var btn = document.querySelector('#checkRes')
-var answerList = ['процессор', '8', 'windows', 'видеокарта', 'жёсткий диск']
-var questionList = []
+var answerType1 = ['процессор', '8', 'windows', 'видеокарта', 'жёсткий диск']
+var answerType2_1 = 'Оперативная память'
+var answerType2_2 = 'Нет'
+
+var answerOnQuestionType2_1 = document.querySelectorAll('[name="radio1"]')
+var answerOnQuestionType2_2 = document.querySelectorAll('[name="radio2"]')
+
 var rightAnswer = 0
 
-btn.addEventListener('click', ClickBtn)
+btn.addEventListener('click', CheckResults)
+function CheckResults(){
+    countRightType1()
+    countRightType2(answerOnQuestionType2_1, answerType2_1)
+    countRightType2(answerOnQuestionType2_2, answerType2_2)
+    alert("Количество правильных ответов - " + rightAnswer)
+}
 
-function ClickBtn(){
-    questionList.push(q1.value)
-    questionList.push(q2.value)
-    questionList.push(q3.value)
-    questionList.push(q4.value)
-    questionList.push(q5.value)
-    questionList.forEach(function(item, index){
-        questionList[index] = item.toLowerCase()
-    })
-    console.log(questionList)
-    for(var i = 0; i<answerList.length; i++){
-        for(var j = 0; j < questionList.length; j++){
-            if(answerList[i] == questionList[j]){
-                console.log('ответ -' + questionList[j] + 'Правильный')
-                rightAnswer++
-            }
-            else{
-                console.log('ответ -' + questionList[j] + 'Неправильный')
-            }
+
+function countRightType1(){
+    for (var i = 0; answerOnQuestionType1.length > i ; i++) {
+        answerOnQuestionType1[i].value = answerOnQuestionType1[i].value.toLowerCase()
+    }
+    for(var i = 0; answerType1.length > i; i++){
+        if(answerType1[i] === answerOnQuestionType1[i].value){
+            rightAnswer++
         }
     }
-    alert("Количество правильных ответов - " + rightAnswer)
+}
+function countRightType2(listAnswerOnQuestion, answer){
+    for(var i = 0; i < listAnswerOnQuestion.length; i++){
+        if(listAnswerOnQuestion[i].checked &&listAnswerOnQuestion[i].value === answer){
+            rightAnswer++
+            break
+        }
+    }
 }
